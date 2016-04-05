@@ -30,6 +30,14 @@
 
 #include <iostream>
 
+ 		//YSVB_CHECK PREAMBLE
+
+#define ARGS(N)	A ## N, O ## N, B ## N
+
+#define ARGS_LOG(N)	#A ## N << " = " << (A ## N) << std::endl <<\
+ 	#B ## N << " = " << (B ## N) << std::endl <<\
+ 	"( " << #A ## N << " " << #O ## N << " " << #B ## N << " ) = " << "FALSE" << std::endl <<
+
 		//YSVB_CHECK
  	//Here starts the big thing:
  	//YSVB_CHECK_1 takes two operands A and B, an (binary, boolean returning) operator O, and a text H
@@ -38,13 +46,24 @@
  	//well conceived and implemented. If it does not happen, then !(A O B) equals true, and hence
  	//the macro outputs a warning message at the log file, also giving a Hint H (by the tester)
  	//of what most likely the problem is.
+// #if defined (__DBG__)
+// 	#define YSVB_CHECK_1(A, O, B, H) if ( !(A O B) )\
+// 	{\
+// 		std::cout << "error at " << __FILE__ << "	line	" << __LINE__ << std::endl <<\
+// 		#A << " = " << (A) << std::endl <<\
+// 		#B << " = " << (B) << std::endl <<\
+// 		"( " << #A << " " << #O << " " << #B << " ) = " << "FALSE" << std::endl <<\
+// 		"Hint: " << H << std::endl;\
+// 	}
+// #else
+// 	#define YSVB_CHECK_1(A, O, B, H)
+// #endif
+
 #if defined (__DBG__)
-	#define YSVB_CHECK_1(A, O, B, H) if ( !(A O B) )\
+	#define YSVB_CHECK_1(ARG(1), H) if ( !(A O B) )\
 	{\
 		std::cout << "error at " << __FILE__ << "	line	" << __LINE__ << std::endl <<\
-		#A << " = " << (A) << std::endl <<\
-		#B << " = " << (B) << std::endl <<\
-		"( " << #A << " " << #O << " " << #B << " ) = " << "FALSE" << std::endl <<\
+		ARGS_LOG(1)\
 		"Hint: " << H << std::endl;\
 	}
 #else
