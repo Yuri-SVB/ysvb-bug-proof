@@ -30,14 +30,6 @@
 
 #include <iostream>
 
- 		//YSVB_CHECK PREAMBLE
-
-#define ARGS(N)	A ## N, O ## N, B ## N
-
-#define ARGS_LOG(N)	#A ## N << " = " << (A ## N) << std::endl <<\
- 	#B ## N << " = " << (B ## N) << std::endl <<\
- 	"( " << #A ## N << " " << #O ## N << " " << #B ## N << " ) = " << "FALSE" << std::endl <<
-
 		//YSVB_CHECK
  	//Here starts the big thing:
  	//YSVB_CHECK_1 takes two operands A and B, an (binary, boolean returning) operator O, and a text H
@@ -59,11 +51,17 @@
 // 	#define YSVB_CHECK_1(A, O, B, H)
 // #endif
 
+ 		//YSVB_CHECK PREAMBLE
+
+#define ARGS_LOG(A, O, B)	#A << " = " << (A) << std::endl <<\
+ 	#B << " = " << (B) << std::endl <<\
+ 	"( " << #A << " " << #O << " " << #B << " ) = " << "FALSE" << std::endl <<
+
 #if defined (__DBG__)
-	#define YSVB_CHECK_1(ARG(1), H) if ( !(A O B) )\
+	#define YSVB_CHECK_1(A1, O1, B1, H) if ( !(A1 O1 B1) )\
 	{\
 		std::cout << "error at " << __FILE__ << "	line	" << __LINE__ << std::endl <<\
-		ARGS_LOG(1)\
+		ARGS_LOG(A1, O1, B1)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -77,15 +75,12 @@
 	//A -> B is equivalent to (!A || B). All YSVB_CHECK_N tests are implemented until N = 10, though it 
 	//is very simple to extend it
 #if defined (__DBG__)
-	#define YSVB_CHECK_2(A1, O1, B1, A2, O2, B2, H) if ( !(	(A1 O1 B1) || (A2 O2 B2)	) )\
+	#define YSVB_CHECK_2(A1, O1, B1, A2, O2, B2, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl <<\
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -93,18 +88,13 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_3(A1, O1, B1, A2, O2, B2, A3, O3, B3, H) if ( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3)	) )\
+	#define YSVB_CHECK_3(A1, O1, B1, A2, O2, B2, A3, O3, B3, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl << \
-		#A3 << " = " << (A3) << std::endl <<\
-		#B3 << " = " << (B3) << std::endl <<\
-		"( " << #A3 << " " << #O3 << " " << #B3 << " ) = " << (A3 O3 B3) << std::endl << \
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -112,21 +102,14 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_4(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, H) if ( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4)	) )\
+	#define YSVB_CHECK_4(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl << \
-		#A3 << " = " << (A3) << std::endl <<\
-		#B3 << " = " << (B3) << std::endl <<\
-		"( " << #A3 << " " << #O3 << " " << #B3 << " ) = " << (A3 O3 B3) << std::endl << \
-		#A4 << " = " << (A4) << std::endl <<\
-		#B4 << " = " << (B4) << std::endl <<\
-		"( " << #A4 << " " << #O4 << " " << #B4 << " ) = " << (A4 O4 B4) << std::endl << \
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -134,24 +117,15 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_5(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, H) if ( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5)	) )\
+	#define YSVB_CHECK_5(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl << \
-		#A3 << " = " << (A3) << std::endl <<\
-		#B3 << " = " << (B3) << std::endl <<\
-		"( " << #A3 << " " << #O3 << " " << #B3 << " ) = " << (A3 O3 B3) << std::endl << \
-		#A4 << " = " << (A4) << std::endl <<\
-		#B4 << " = " << (B4) << std::endl <<\
-		"( " << #A4 << " " << #O4 << " " << #B4 << " ) = " << (A4 O4 B4) << std::endl << \
-		#A5 << " = " << (A5) << std::endl <<\
-		#B5 << " = " << (B5) << std::endl <<\
-		"( " << #A5 << " " << #O5 << " " << #B5 << " ) = " << (A5 O5 B5) << std::endl << \
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
+		ARGS_LOG(A5, O5, B5)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -159,27 +133,16 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_6(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, H) if ( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6)	) )\
+	#define YSVB_CHECK_6(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl << \
-		#A3 << " = " << (A3) << std::endl <<\
-		#B3 << " = " << (B3) << std::endl <<\
-		"( " << #A3 << " " << #O3 << " " << #B3 << " ) = " << (A3 O3 B3) << std::endl << \
-		#A4 << " = " << (A4) << std::endl <<\
-		#B4 << " = " << (B4) << std::endl <<\
-		"( " << #A4 << " " << #O4 << " " << #B4 << " ) = " << (A4 O4 B4) << std::endl << \
-		#A5 << " = " << (A5) << std::endl <<\
-		#B5 << " = " << (B5) << std::endl <<\
-		"( " << #A5 << " " << #O5 << " " << #B5 << " ) = " << (A5 O5 B5) << std::endl << \
-		#A6 << " = " << (A6) << std::endl <<\
-		#B6 << " = " << (B6) << std::endl <<\
-		"( " << #A6 << " " << #O6 << " " << #B6 << " ) = " << (A6 O6 B6) << std::endl << \
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
+		ARGS_LOG(A5, O5, B5)\
+		ARGS_LOG(A6, O6, B6)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -187,30 +150,17 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_7(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, H) if ( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7)	) )\
+	#define YSVB_CHECK_7(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl << \
-		#A3 << " = " << (A3) << std::endl <<\
-		#B3 << " = " << (B3) << std::endl <<\
-		"( " << #A3 << " " << #O3 << " " << #B3 << " ) = " << (A3 O3 B3) << std::endl << \
-		#A4 << " = " << (A4) << std::endl <<\
-		#B4 << " = " << (B4) << std::endl <<\
-		"( " << #A4 << " " << #O4 << " " << #B4 << " ) = " << (A4 O4 B4) << std::endl << \
-		#A5 << " = " << (A5) << std::endl <<\
-		#B5 << " = " << (B5) << std::endl <<\
-		"( " << #A5 << " " << #O5 << " " << #B5 << " ) = " << (A5 O5 B5) << std::endl << \
-		#A6 << " = " << (A6) << std::endl <<\
-		#B6 << " = " << (B6) << std::endl <<\
-		"( " << #A6 << " " << #O6 << " " << #B6 << " ) = " << (A6 O6 B6) << std::endl << \
-		#A7 << " = " << (A7) << std::endl <<\
-		#B7 << " = " << (B7) << std::endl <<\
-		"( " << #A7 << " " << #O7 << " " << #B7 << " ) = " << (A7 O7 B7) << std::endl << \
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
+		ARGS_LOG(A5, O5, B5)\
+		ARGS_LOG(A6, O6, B6)\
+		ARGS_LOG(A7, O7, B7)\
 		"Hint: " << H << std::endl;\
 	}
 #else
@@ -218,67 +168,234 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_8(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, H) if ( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8)	) )\
+	#define YSVB_CHECK_8(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		#A1 << " = " << (A1) << std::endl <<\
-		#B1 << " = " << (B1) << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << (A2) << std::endl <<\
-		#B2 << " = " << (B2) << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl << \
-		#A3 << " = " << (A3) << std::endl <<\
-		#B3 << " = " << (B3) << std::endl <<\
-		"( " << #A3 << " " << #O3 << " " << #B3 << " ) = " << (A3 O3 B3) << std::endl << \
-		#A4 << " = " << (A4) << std::endl <<\
-		#B4 << " = " << (B4) << std::endl <<\
-		"( " << #A4 << " " << #O4 << " " << #B4 << " ) = " << (A4 O4 B4) << std::endl << \
-		#A5 << " = " << (A5) << std::endl <<\
-		#B5 << " = " << (B5) << std::endl <<\
-		"( " << #A5 << " " << #O5 << " " << #B5 << " ) = " << (A5 O5 B5) << std::endl << \
-		#A6 << " = " << (A6) << std::endl <<\
-		#B6 << " = " << (B6) << std::endl <<\
-		"( " << #A6 << " " << #O6 << " " << #B6 << " ) = " << (A6 O6 B6) << std::endl << \
-		#A7 << " = " << (A7) << std::endl <<\
-		#B7 << " = " << (B7) << std::endl <<\
-		"( " << #A7 << " " << #O7 << " " << #B7 << " ) = " << (A7 O7 B7) << std::endl << \
-		#A8 << " = " << (A8) << std::endl <<\
-		#B8 << " = " << (B8) << std::endl <<\
-		"( " << #A8 << " " << #O8 << " " << #B8 << " ) = " << (A8 O8 B8) << std::endl << \
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
+		ARGS_LOG(A5, O5, B5)\
+		ARGS_LOG(A6, O6, B6)\
+		ARGS_LOG(A7, O7, B7)\
+		ARGS_LOG(A8, O8, B8)\
 		"Hint: " << H << std::endl;\
 	}
 #else
 	#define YSVB_CHECK_8(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, H)
 #endif
 
-
-			//YSVB_CHECK_Ps
-		//The same but for pointers or iterators
 #if defined (__DBG__)
-	#define YSVB_CHECK_1P(A, O, B) if ( !(A O B) )\
+	#define YSVB_CHECK_9(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8) || (A9 O9 B9)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		"*" << #A << " = " << (*(A)) << std::endl <<\
-		"*" << #B << " = " << (*(B)) << std::endl <<\
-		"( " << #A << " " << #O << " " << #B << " ) = " << "FALSE" << std::endl;\
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
+		ARGS_LOG(A5, O5, B5)\
+		ARGS_LOG(A6, O6, B6)\
+		ARGS_LOG(A7, O7, B7)\
+		ARGS_LOG(A8, O8, B8)\
+		ARGS_LOG(A9, O9, B9)\
+		"Hint: " << H << std::endl;\
 	}
 #else
-	#define YSVB_CHECK_1P(A, O, B)
+	#define YSVB_CHECK_9(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, H)
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_2P(A1, O1, B1, A2, O2, B2) if ( !(A1 O1 B1 || A2 O2 B2) )\
+	#define YSVB_CHECK_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A8, O8, B8, A8, O8, B8, A9, O9, B9, A10, O10, B10, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8) || (A9 O9 B9) || (A10 O10 B10)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
-		"*" << #A1 << " = " << *A1 << std::endl <<\
-		"*" << #B1 << " = " << *B1 << std::endl <<\
-		"( " << #A1 << " " << #O1 << " " << #B1 << " ) = " << (A1 O1 B1) << std::endl << \
-		#A2 << " = " << A2 << std::endl <<\
-		#B2 << " = " << B2 << std::endl <<\
-		"( " << #A2 << " " << #O2 << " " << #B2 << " ) = " << (A2 O2 B2) << std::endl;\
+		ARGS_LOG(A1, O1, B1)\
+		ARGS_LOG(A2, O2, B2)\
+		ARGS_LOG(A3, O3, B3)\
+		ARGS_LOG(A4, O4, B4)\
+		ARGS_LOG(A5, O5, B5)\
+		ARGS_LOG(A6, O6, B6)\
+		ARGS_LOG(A7, O7, B7)\
+		ARGS_LOG(A8, O8, B8)\
+		ARGS_LOG(A9, O9, B9)\
+		ARGS_LOG(A10, O10, B10)\
+		"Hint: " << H << std::endl;\
 	}
 #else
-	#define YSVB_CHECK_2P(A, O, B)
+	#define YSVB_CHECK_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, A10, O10, B10, H)
+#endif
+
+
+			//YSVB_CHECK_Ps
+		//The same but for pointers or iterators
+#define ARGS_LOG_P(A, O, B)	#A << " = " << (*(A)) << std::endl <<\
+ 	#B << " = " << (*(B)) << std::endl <<\
+ 	"( " << #A << " " << #O << " " << #B << " ) = " << "FALSE" << std::endl <<
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_1(A1, O1, B1, H) if ( !(A1 O1 B1) )\
+	{\
+		std::cout << "error at " << __FILE__ << "	line	" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_1(A, O, B, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_2(A1, O1, B1, A2, O2, B2, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_2(A1, O1, B1, A2, O2, B2, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_3(A1, O1, B1, A2, O2, B2, A3, O3, B3, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_3(A1, O1, B1, A2, O2, B2, A3, O3, B3)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_4(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_4(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_5(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		ARGS_LOG_P(A5, O5, B5)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_5(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_6(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		ARGS_LOG_P(A5, O5, B5)\
+		ARGS_LOG_P(A6, O6, B6)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_6(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_7(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		ARGS_LOG_P(A5, O5, B5)\
+		ARGS_LOG_P(A6, O6, B6)\
+		ARGS_LOG_P(A7, O7, B7)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_7(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_8(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		ARGS_LOG_P(A5, O5, B5)\
+		ARGS_LOG_P(A6, O6, B6)\
+		ARGS_LOG_P(A7, O7, B7)\
+		ARGS_LOG_P(A8, O8, B8)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_8(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_9(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8) || (A9 O9 B9)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		ARGS_LOG_P(A5, O5, B5)\
+		ARGS_LOG_P(A6, O6, B6)\
+		ARGS_LOG_P(A7, O7, B7)\
+		ARGS_LOG_P(A8, O8, B8)\
+		ARGS_LOG_P(A9, O9, B9)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_9(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, H)
+#endif
+
+#if defined (__DBG__)
+	#define YSVB_CHECK_P_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A8, O8, B8, A8, O8, B8, A9, O9, B9, A10, O10, B10, H) if\
+	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8) || (A9 O9 B9) || (A10 O10 B10)	) )\
+	{\
+		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
+		ARGS_LOG_P(A1, O1, B1)\
+		ARGS_LOG_P(A2, O2, B2)\
+		ARGS_LOG_P(A3, O3, B3)\
+		ARGS_LOG_P(A4, O4, B4)\
+		ARGS_LOG_P(A5, O5, B5)\
+		ARGS_LOG_P(A6, O6, B6)\
+		ARGS_LOG_P(A7, O7, B7)\
+		ARGS_LOG_P(A8, O8, B8)\
+		ARGS_LOG_P(A9, O9, B9)\
+		ARGS_LOG_P(A10, O10, B10)\
+		"Hint: " << H << std::endl;\
+	}
+#else
+	#define YSVB_CHECK_P_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, A10, O10, B10, H)
 #endif
 
 			//Some simple log tools
