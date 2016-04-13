@@ -1,5 +1,10 @@
 /*
  * ysvb_bug_proof.hpp
+ * this is a dependency from other C++ project by YuriSVB
+ *
+ * check out:
+ * https://github.com/Yuri-SVB/ysvb-bug-proof
+ * for later versions
  *
  *  Created on: Dec 14, 2014
  *      Author: yuri
@@ -207,7 +212,7 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A8, O8, B8, A8, O8, B8, A9, O9, B9, A10, O10, B10, H) if\
+	#define YSVB_CHECK_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, A10, O10, B10, H) if\
 	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8) || (A9 O9 B9) || (A10 O10 B10)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
@@ -378,7 +383,7 @@
 #endif
 
 #if defined (__DBG__)
-	#define YSVB_CHECK_P_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A8, O8, B8, A8, O8, B8, A9, O9, B9, A10, O10, B10, H) if\
+	#define YSVB_CHECK_P_10(A1, O1, B1, A2, O2, B2, A3, O3, B3, A4, O4, B4, A5, O5, B5, A6, O6, B6, A7, O7, B7, A8, O8, B8, A9, O9, B9, A10, O10, B10, H) if\
 	( !(	(A1 O1 B1) || (A2 O2 B2) || (A3 O3 B3) || (A4 O4 B4) || (A5 O5 B5) || (A6 O6 B6) || (A7 O7 B7) || (A8 O8 B8) || (A9 O9 B9) || (A10 O10 B10)	) )\
 	{\
 		std::cout << "error at " << __FILE__ << "\t\t" << __LINE__ << std::endl <<\
