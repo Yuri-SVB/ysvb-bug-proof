@@ -56,6 +56,18 @@
 // 	#define YSVB_CHECK_1(A, O, B, H)
 // #endif
 
+#if defined(__DBG__)
+ 	#define YSVB_DBG_VERSION(CODE)	CODE
+#else
+ 	#define YSVB_DBG_VERSION(CODE)
+#endif
+
+#if !defined(__DBG__)
+ 	#define YSVB_RLS_VERSION(CODE)	CODE
+#else
+ 	#define YSVB_RLS_VERSION(CODE)
+#endif
+
  		//YSVB_CHECK PREAMBLE
 
 #define ARGS_LOG(A, O, B)	#A << " = " << (A) << std::endl <<\
