@@ -417,6 +417,12 @@
 
 			//Some simple log tools
 
+#if defined (__DBG__)
+	#define YSVB_LINE (std::cout<<__FILE__<<"\t"<<__LINE__<<std::endl);
+#else
+	#define YSVB_LINE
+#endif
+
 		//SHOW
 #if defined (__SHOW__)
 	#define YSVB_SHOW(X) (std::cout<<__FILE__<<"\t"<<__LINE__<<"\t"<<#X<<"="<<(X)<<std::endl);
