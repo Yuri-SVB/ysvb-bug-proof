@@ -116,7 +116,7 @@
 		"Hint: " << H << std::endl;\
 	}
 #else
-	#define YSVB_CHECK_3(A1, O1, B1, A2, O2, B2, A3, O3, B3)
+	#define YSVB_CHECK_3(A1, O1, B1, A2, O2, B2, A3, O3, B3, H)
 #endif
 
 #if defined (__DBG__)
