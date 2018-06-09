@@ -13,9 +13,6 @@
 #if !defined(YSVB_BUG_PROOF_HPP_)
 #define YSVB_BUG_PROOF_HPP_
 
- 		//General purpose math tool
-#define SIGN(x) ((x < 0) ? (-1) : (x > 0))
-
 		//MENU
  	//Comment / Uncomment each of those lines bellow to selectively activate each functionallity
 // #define __SHOW__
