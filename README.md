@@ -1,6 +1,6 @@
 # ysvb-bug-proof
 
-This project concerns mainly a set of general purpose compile time activatable macros that create log file alerts in case of run time tests (set in coding time) occur.
+This project consists mainly of a set of general purpose compile time activatable macros that create log file alerts in case of run time tests (set in coding time) occur.
 
 It is the only of its category (to the author's knowledge) that not only logs the error message, but also indicates the operation that operands were expected to have. Example:
 
